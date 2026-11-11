@@ -1,0 +1,58 @@
+{
+  "updated": "2026-11-11T02:30:00Z",
+  "cta_url": "https://melaniehalley.com/membership",
+  "events": [
+    {
+      "id": "_6opj8pb668oj6b9p6cqjeb9k64o66bb2chh3cb9h6spjad9ncop34opmc506gpb1e9q64pb1egn66q31eg",
+      "type": "coworking",
+      "title": "Co-working : viens créer ton contenu",
+      "start": "2026-11-13T10:00:00-05:00",
+      "end": "2026-11-13T12:00:00-05:00"
+    },
+    {
+      "id": "_cphm4d316hhjeb9nccqmab9kccpjcb9ocksjeb9n64qjccho64p38c356h06gpb1e9q64pb1egn66q31eg",
+      "type": "clinique",
+      "title": "Clinique de contenu, brainstorm et Q&R",
+      "start": "2026-11-19T12:00:00-05:00",
+      "end": "2026-11-19T13:30:00-05:00"
+    },
+    {
+      "id": "_cksm6cpo6go66b9hc5im6b9kc9h3cb9o6thm6bb6c8om8c1h6cpjcdj16906gpb1e9q64pb1egn66q31eg",
+      "type": "cafe",
+      "title": "Café-jasette : les actus du web et des réseaux sociaux",
+      "start": "2026-11-24T12:00:00-05:00",
+      "end": "2026-11-24T13:00:00-05:00"
+    },
+    {
+      "id": "_c8o3epj475hm2b9m60r3ib9k6sq38bb16lh68b9o6gs34opi69i6cp1kcl06gpb1e9q64pb1egn66q31eg",
+      "type": "coworking",
+      "title": "Co-working : viens créer ton contenu",
+      "start": "2026-12-02T10:00:00-05:00",
+      "end": "2026-12-02T12:00:00-05:00"
+    },
+    {
+      "id": "_68r3apj4c4qjabb368q3cb9k64s6ab9p74q6cbb160q36phl6opjgopjcl06gpb1e9q64pb1egn66q31eg",
+      "type": "clinique",
+      "title": "Clinique de contenu, brainstorm et Q&R",
+      "start": "2026-12-08T10:30:00-05:00",
+      "end": "2026-12-08T12:00:00-05:00"
+    },
+    {
+      "id": "_cpij2or5ckr30b9lcgojeb9kc4smabb1cgp6cb9n6kp34p9k60r6cp9j7106gpb1e9q64pb1egn66q31eg",
+      "type": "special",
+      "title": "Cercle de partage : bilan, vision 2027 et célébrations",
+      "start": "2026-12-17T11:30:00-05:00",
+      "end": "2026-12-17T13:00:00-05:00",
+      "pitch": {
+        "accroche": "Avant de tourner la page sur 2026, on prend le temps de célébrer.",
+        "texte": [
+          "À mi-chemin entre l'atelier de réflexion et le café-jasette, ce cercle t'invite à regarder le chemin parcouru, entourée d'entrepreneures qui comprennent ta réalité.",
+          "Ce qui a avancé. Ce que tu as appris sur toi et sur ta business. Les décisions courageuses et les petits pas dont tu peux être fière. Puis on nomme ensemble ce que tu as envie de développer, de simplifier ou de laisser derrière en 2027.",
+          "Pas besoin d'arriver avec un bilan tout fait. Apporte ton café, ton thé ou de quoi trinquer."
+        ],
+        "repars": "Un bilan qui fait du bien et une vision 2027 qui part de toi."
+      },
+      "statut": "à valider"
+    }
+  ]
+}

@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Programmation Business Synergique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Montserrat:wght@700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+@font-face { font-family: "Butler"; src: url("fonts/butler-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Butler"; src: url("fonts/butler-600.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Butler"; src: url("fonts/butler-700.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Gotham"; src: url("fonts/gotham-700.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+
+:root {
+  /* Univers de la page de vente : bandeau sarcelle avec réseau de synapses, vagues, sections blanches, boutons pilule blancs.
+     Mise en page : héros pleine largeur, prochain rendez-vous en vedette, formats, puis un fil chronologique en zigzag relié comme un réseau. */
+  --ink: #0d3149;
+  --navy: #13486c;
+  --teal: #3d97ad;
+  --sky: #99c8d4;
+  --foam: #cfe9ed;
+  --mist: #f2f7f8;
+  --paper: #ffffff;
+  --text: #4f5b62;
+  --line: #dbe8eb;
+  --display: "Butler", "Playfair Display", Georgia, serif;
+  --body: "Lato", "Helvetica Neue", Arial, sans-serif;
+  --label: "Gotham", "Montserrat", "Lato", "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--paper); color: var(--text); font-family: var(--body); font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; }
+button { font: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--sky); outline-offset: 3px; border-radius: 8px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 600; margin: 0; text-wrap: balance; color: var(--ink); letter-spacing: -.005em; }
+em { font-style: italic; }
+[hidden] { display: none !important; }
+.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+/* Boutons, fidèles à la page de vente */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  font-family: var(--display); font-weight: 600; font-size: 15px; letter-spacing: 1px; text-transform: uppercase;
+  background: var(--paper); color: var(--navy); text-decoration: none; border: 0;
+  border-radius: 100px; padding: 15px 30px; box-shadow: 0 2px 18px rgba(0,0,0,.22);
+  transition: transform .18s, box-shadow .18s, background .18s, color .18s;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 26px rgba(0,0,0,.25); }
+.btn.dark { background: var(--navy); color: #fff; box-shadow: 0 8px 24px rgba(19,72,108,.28); }
+.btn.dark:hover { background: var(--ink); }
+.btn svg { width: 16px; height: 16px; flex: none; }
+.link-ghost { color: #fff; font-weight: 700; font-size: 14.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; border-bottom: 1.5px solid rgba(255,255,255,.5); padding-bottom: 2px; }
+.link-ghost:hover { border-color: #fff; }
+.link-ghost svg { width: 14px; height: 14px; }
+
+.section-head { text-align: center; display: grid; justify-items: center; gap: 10px; margin-bottom: 36px; }
+.section-head h2 { font-size: clamp(30px, 3.6vw, 42px); color: var(--teal); line-height: 1.15; }
+.section-head p { margin: 0; font-family: var(--display); font-size: 19px; color: var(--navy); max-width: 46ch; }
+.section-head .rule { width: 56px; height: 2px; background: var(--teal); margin-top: 6px; }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--teal); }
+
+/* ---------- Héros ---------- */
+.hero { position: relative; background: var(--teal); color: #fff; padding: 56px 0 150px; overflow: hidden; isolation: isolate; }
+.hero canvas, .perks canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+.hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse at 50% 30%, rgba(61,151,173,0) 0, rgba(61,151,173,.65) 70%); }
+.hero-inner { display: grid; justify-items: center; text-align: center; gap: 22px; }
+.logo { width: min(440px, 82vw); height: auto; filter: drop-shadow(0 6px 18px rgba(13,49,73,.25)); }
+.logo-text { display: grid; justify-items: center; line-height: .9; color: #fff; filter: drop-shadow(0 4px 14px rgba(13,49,73,.3)); }
+.logo-text small { font-family: var(--body); font-weight: 700; font-size: 12px; letter-spacing: .32em; text-transform: uppercase; color: var(--foam); margin-bottom: 8px; }
+.logo-text b { font-family: var(--display); font-weight: 600; font-size: clamp(42px, 6vw, 64px); letter-spacing: .06em; text-transform: uppercase; }
+.logo-text i { font-family: var(--display); font-weight: 500; font-size: clamp(40px, 5.6vw, 60px); color: var(--ink); margin-top: -2px; }
+.hero h1 { color: #fff; font-size: clamp(30px, 4.2vw, 50px); line-height: 1.12; max-width: 20ch; font-weight: 500; }
+.hero h1 em { color: var(--ink); }
+.hero p.lede { margin: 0; font-size: 17.5px; color: rgba(255,255,255,.92); max-width: 56ch; }
+.hero-stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 0; margin-top: 6px; }
+.hero-stats div { padding: 4px 26px; display: grid; justify-items: center; }
+.hero-stats div + div { border-left: 1px solid rgba(255,255,255,.35); }
+.hero-stats b { font-family: var(--display); font-weight: 500; font-size: 44px; line-height: 1; color: #fff; font-variant-numeric: lining-nums; }
+.hero-stats span { font-size: 12.5px; letter-spacing: .04em; color: var(--foam); margin-top: 6px; max-width: 18ch; line-height: 1.35; }
+.hero-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px 28px; margin-top: 8px; }
+.wave { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: 110px; display: block; z-index: 0; }
+
+/* ---------- Prochain rendez-vous ---------- */
+.next { position: relative; z-index: 2; margin-top: -110px; }
+.next-card {
+  display: grid; grid-template-columns: 220px 1fr; background: var(--paper); border-radius: 26px; overflow: hidden;
+  box-shadow: 0 24px 60px rgba(13,49,73,.18); border: 1px solid var(--line);
+}
+.next-date { background: linear-gradient(160deg, var(--c), var(--ink)); color: #fff; padding: 28px 22px; display: grid; align-content: center; justify-items: center; text-align: center; gap: 2px; position: relative; }
+.next-date .soon { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; background: rgba(255,255,255,.18); border-radius: 100px; padding: 4px 12px; margin-bottom: 10px; }
+.next-date .dow { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--foam); }
+.next-date .num { font-family: var(--display); font-size: 84px; line-height: .95; font-weight: 500; }
+.next-date .mon { font-family: var(--display); font-size: 22px; font-style: italic; }
+.next-body { padding: 30px 34px; display: grid; gap: 10px; align-content: center; }
+.next-body .eyebrow { display: flex; align-items: center; gap: 10px; }
+.next-body h3 { font-size: clamp(24px, 2.6vw, 32px); line-height: 1.18; color: var(--navy); }
+.next-body .hook { margin: 0; font-family: var(--display); font-style: italic; font-size: 19px; color: var(--navy); }
+.next-body .meta { font-size: 14px; color: var(--text); }
+.next-actions { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; margin-top: 8px; }
+.text-link { background: none; border: 0; padding: 0; color: var(--teal); font-weight: 700; font-size: 14.5px; display: inline-flex; align-items: center; gap: 7px; text-decoration: none; }
+.text-link svg { width: 14px; height: 14px; transition: transform .15s; }
+.text-link:hover svg { transform: translateX(3px); }
+
+/* ---------- Formats ---------- */
+.formats { padding: 92px 24px 40px; }
+.format-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; }
+.format {
+  background: var(--paper); border: 0; border-radius: 24px; padding: 0; text-align: left; color: inherit; overflow: hidden;
+  display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(13,49,73,.08), 0 0 0 1px var(--line);
+  transition: transform .2s, box-shadow .2s;
+}
+.format:hover { transform: translateY(-5px); box-shadow: 0 22px 44px rgba(13,49,73,.16), 0 0 0 1px var(--sky); }
+.f-head { position: relative; overflow: hidden; padding: 26px 26px 24px; color: #fff; background: linear-gradient(135deg, var(--c) 0%, var(--ink) 160%); display: grid; gap: 14px; }
+.f-head .f-icon { width: 46px; height: 46px; border-radius: 50%; background: #fff; color: var(--c); display: grid; place-items: center; }
+.f-head .f-icon svg { width: 21px; height: 21px; }
+.f-head .ghost { position: absolute; right: -18px; bottom: -26px; width: 130px; height: 130px; color: #fff; opacity: .12; }
+.f-head .ghost svg { width: 100%; height: 100%; }
+.format h3 { font-size: 24px; font-weight: 700; color: #fff; line-height: 1.15; position: relative; }
+.f-body { padding: 22px 26px 24px; display: flex; flex-direction: column; gap: 18px; flex: 1; }
+.f-body p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--text); }
+.format .count { margin-top: auto; display: inline-flex; align-items: center; gap: 8px; width: max-content; font-family: var(--label); font-weight: 700; font-size: 13px; color: var(--cText); background: var(--cSoft); border-radius: 100px; padding: 8px 14px; transition: background .2s, color .2s; }
+.format .count svg { width: 13px; height: 13px; transition: transform .2s; }
+.format:hover .count { background: var(--c); color: #fff; }
+.format:hover .count svg { transform: translateX(3px); }
+
+/* ---------- Programmation ---------- */
+.program { padding: 70px 0 90px; background:
+  linear-gradient(180deg, var(--paper) 0, var(--mist) 180px, var(--mist) 100%); }
+.toolbar { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px 24px; margin-bottom: 44px; }
+.filters { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.chip { display: inline-flex; align-items: center; gap: 8px; border: 1.5px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 100px; padding: 8px 16px 8px 9px; font-size: 13.5px; font-weight: 700; transition: border-color .15s, background .15s, color .15s; }
+.chip.all { padding-left: 16px; }
+.chip:hover { border-color: var(--teal); }
+.chip[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); color: #fff; }
+.chip .dot { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--c); color: #fff; }
+.chip .dot svg { width: 12px; height: 12px; }
+.views { display: inline-flex; background: var(--paper); border: 1px solid var(--line); border-radius: 100px; padding: 4px; }
+.views button { border: 0; background: transparent; border-radius: 100px; padding: 8px 18px; font-size: 13.5px; font-weight: 700; color: var(--text); }
+.views button[aria-pressed="true"] { background: var(--teal); color: #fff; }
+
+/* Fil en zigzag, relié comme un réseau */
+.timeline { position: relative; display: grid; gap: 0; }
+.timeline::before { content: ""; position: absolute; left: 50%; top: 10px; bottom: 10px; width: 2px; transform: translateX(-1px); background: linear-gradient(var(--sky), var(--foam)); }
+.t-month { position: relative; display: grid; justify-items: center; margin: 10px 0 26px; z-index: 1; }
+.t-month + .t-row { margin-top: 0; }
+.t-row + .t-month { margin-top: 34px; }
+.t-month span { font-family: var(--display); font-size: 26px; font-weight: 500; background: var(--navy); color: #fff; border-radius: 100px; padding: 6px 26px 8px; box-shadow: 0 8px 20px rgba(19,72,108,.22); }
+.t-month span::first-letter { text-transform: uppercase; }
+.t-row { display: grid; grid-template-columns: 1fr 64px 1fr; align-items: center; margin-bottom: 22px; }
+.t-node { grid-column: 2; justify-self: center; width: 22px; height: 22px; border-radius: 50%; background: var(--paper); border: 5px solid var(--c); box-shadow: 0 0 0 6px rgba(153,200,212,.25); position: relative; z-index: 1; }
+.t-when { display: grid; gap: 0; color: var(--navy); }
+.t-when b { font-family: var(--display); font-weight: 500; font-size: 30px; line-height: 1.1; color: var(--ink); }
+.t-when b::first-letter { text-transform: uppercase; }
+.t-when span { font-size: 14px; }
+.t-row.left .event { grid-column: 1; grid-row: 1; }
+.t-row.left .t-when { grid-column: 3; grid-row: 1; padding-left: 8px; }
+.t-row.right .event { grid-column: 3; grid-row: 1; }
+.t-row.right .t-when { grid-column: 1; grid-row: 1; text-align: right; padding-right: 8px; }
+.t-node { grid-row: 1; }
+
+.event {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 22px; padding: 22px 24px; text-align: left; color: inherit; width: 100%;
+  display: grid; gap: 8px; position: relative; transition: transform .18s, box-shadow .18s, border-color .18s;
+  box-shadow: 0 6px 18px rgba(13,49,73,.05);
+}
+.event:hover { transform: translateY(-3px); box-shadow: 0 18px 38px rgba(13,49,73,.12); border-color: var(--sky); }
+.event::before { content: ""; position: absolute; top: 50%; width: 20px; height: 2px; background: var(--sky); }
+.t-row.left .event::before { right: -21px; }
+.t-row.right .event::before { left: -21px; }
+.tag { display: inline-flex; align-items: center; gap: 7px; width: max-content; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--cText); background: var(--cSoft); border-radius: 100px; padding: 4px 12px 4px 5px; }
+.tag i { width: 18px; height: 18px; border-radius: 50%; background: var(--c); color: #fff; display: grid; place-items: center; }
+.tag svg { width: 10px; height: 10px; }
+.ev-title { font-family: var(--display); font-size: 22px; font-weight: 600; line-height: 1.22; color: var(--navy); }
+.ev-hook { margin: 0; font-size: 14.5px; line-height: 1.55; }
+.ev-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+.ev-foot .time { font-size: 13px; font-weight: 700; color: var(--navy); display: inline-flex; align-items: center; gap: 6px; }
+.ev-foot .time svg { width: 14px; height: 14px; color: var(--teal); }
+.ev-foot .more { font-size: 13px; font-weight: 700; color: var(--teal); display: inline-flex; align-items: center; gap: 6px; }
+.ev-foot .more svg { width: 13px; height: 13px; transition: transform .15s; }
+.event:hover .more svg { transform: translateX(3px); }
+.empty { background: var(--paper); border: 1.5px dashed var(--sky); border-radius: 22px; padding: 30px; text-align: center; max-width: 560px; margin: 0 auto; }
+
+/* ---------- Bandeau bénéfices ---------- */
+.perks { position: relative; background: var(--navy); color: #fff; padding: 130px 0 120px; overflow: hidden; isolation: isolate; }
+.perks .wave-top, .perks .wave-bottom { position: absolute; left: 0; width: 100%; height: 90px; display: block; z-index: 0; }
+.perks .wave-top { top: -1px; }
+.perks .wave-bottom { bottom: -1px; }
+.perks .section-head h2 { color: #fff; }
+.perks .section-head h2 em { color: var(--sky); }
+.perks .section-head p { color: var(--foam); }
+.perks .section-head .rule { background: var(--sky); }
+.perk-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; position: relative; z-index: 1; }
+.perk { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); border-radius: 20px; padding: 24px 22px; display: grid; gap: 10px; align-content: start; backdrop-filter: blur(2px); }
+.perk i { width: 40px; height: 40px; border-radius: 50%; background: var(--teal); display: grid; place-items: center; color: #fff; font-style: normal; }
+.perk i svg { width: 18px; height: 18px; }
+.perk b { font-family: var(--display); font-weight: 600; font-size: 19px; color: #fff; line-height: 1.25; }
+.perk span { font-size: 14px; color: rgba(255,255,255,.82); line-height: 1.55; }
+.perks .center { display: flex; justify-content: center; margin-top: 40px; position: relative; z-index: 1; }
+
+/* ---------- Appel final ---------- */
+.final { padding: 80px 24px 40px; text-align: center; }
+.final-inner { display: grid; justify-items: center; gap: 16px; }
+.final h2 { font-size: clamp(30px, 3.8vw, 44px); color: var(--teal); }
+.final h2 em { color: var(--navy); }
+.final p { margin: 0; max-width: 54ch; font-size: 17px; }
+.final .small { font-size: 13px; color: #7a868c; }
+.stamp { text-align: center; font-size: 12px; color: #8a979d; padding: 26px 0 40px; }
+
+/* ---------- Panneau détail ---------- */
+.overlay { position: fixed; inset: 0; background: rgba(13,49,73,.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 50; }
+.overlay.open { display: flex; }
+.panel { background: var(--paper); border-radius: 26px; width: min(640px, 100%); max-height: calc(100% - 20px); overflow: auto; box-shadow: 0 30px 80px rgba(13,49,73,.4); position: relative; }
+.panel-top { padding: 30px 34px 26px; background: linear-gradient(150deg, var(--c), var(--ink)); color: #fff; display: grid; gap: 12px; position: relative; overflow: hidden; }
+.panel-top::after { content: ""; position: absolute; right: -60px; top: -60px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(207,233,237,.35), rgba(207,233,237,0) 70%); }
+.panel-top .tag { background: rgba(255,255,255,.18); color: #fff; }
+.panel-top .tag i { background: #fff; color: var(--c); }
+.panel-top h3 { font-size: 30px; line-height: 1.15; color: #fff; padding-right: 40px; font-weight: 500; }
+.when { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; color: var(--foam); font-weight: 700; }
+.when span { display: inline-flex; align-items: center; gap: 7px; }
+.when svg { width: 15px; height: 15px; }
+.close { position: absolute; top: 18px; right: 18px; z-index: 2; width: 38px; height: 38px; border-radius: 50%; border: 0; background: rgba(255,255,255,.95); color: var(--ink); display: grid; place-items: center; }
+.close svg { width: 16px; height: 16px; }
+.panel-body { padding: 26px 34px 6px; display: grid; gap: 14px; }
+.panel-body .hook { font-family: var(--display); font-style: italic; font-size: 22px; line-height: 1.35; color: var(--teal); margin: 0; }
+.panel-body p { margin: 0; color: #3f4c53; font-size: 15.5px; max-width: 62ch; }
+.repars { margin: 18px 34px 0; background: var(--foam); border-radius: 18px; padding: 16px 20px; display: grid; gap: 2px; border-left: 4px solid var(--teal); }
+.repars small { font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--teal); font-weight: 700; }
+.repars span { font-family: var(--display); font-size: 18px; color: var(--ink); line-height: 1.35; }
+.panel-actions { padding: 24px 34px 30px; display: grid; gap: 18px; }
+.panel-actions .btn { width: 100%; }
+.cal-row { display: grid; gap: 8px; justify-items: center; }
+.cal-row > small { font-size: 12px; font-weight: 700; color: var(--text); letter-spacing: .06em; text-transform: uppercase; }
+.cal-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.cal-btn { display: inline-flex; align-items: center; gap: 8px; border: 1.5px solid var(--line); background: #fff; color: var(--ink); text-decoration: none; border-radius: 100px; padding: 8px 15px; font-size: 13px; font-weight: 700; }
+.cal-btn:hover { border-color: var(--teal); color: var(--navy); }
+.cal-btn svg { width: 14px; height: 14px; color: var(--teal); }
+.member-note { font-size: 12.5px; color: #7a868c; margin: 0; text-align: center; }
+
+/* ---------- Vue story ---------- */
+.story-wrap { display: grid; justify-items: center; gap: 16px; }
+.story-tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; font-size: 13.5px; }
+.story-tools select { font: inherit; font-weight: 700; border: 1.5px solid var(--line); border-radius: 100px; padding: 8px 16px; background: #fff; color: var(--ink); }
+.story { width: 405px; aspect-ratio: 9 / 16; border-radius: 30px; overflow: hidden; position: relative; isolation: isolate; background: var(--teal); color: #fff; padding: 30px 24px 24px; display: flex; flex-direction: column; gap: 13px; box-shadow: 0 30px 60px rgba(13,49,73,.3); }
+.story canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+.story::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 45%; z-index: -1; background: linear-gradient(transparent, rgba(13,49,73,.55)); }
+.story .s-logo { display: grid; justify-items: center; }
+.story .s-logo img { width: 210px; height: auto; }
+.story .s-logo .logo-text b { font-size: 30px; }
+.story .s-logo .logo-text i { font-size: 28px; }
+.story .s-logo .logo-text small { font-size: 9px; margin-bottom: 4px; }
+.story h2 { hyphens: manual; color: #fff; font-size: 24px; line-height: 1.12; text-align: center; font-weight: 500; }
+.story h2 em { color: var(--ink); }
+.story-list { display: grid; gap: 7px; flex: 1; align-content: start; }
+.s-ev { display: grid; grid-template-columns: 52px 1fr; gap: 12px; align-items: center; background: rgba(255,255,255,.95); color: var(--ink); border-radius: 16px; padding: 8px 12px 8px 8px; box-shadow: 0 6px 14px rgba(13,49,73,.12); }
+.s-ev .d { text-align: center; background: var(--c); color: #fff; border-radius: 12px; padding: 5px 0 6px; }
+.s-ev .d small { display: block; font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; opacity: .9; }
+.s-ev .d b { display: block; font-family: var(--display); font-weight: 500; font-size: 22px; line-height: 1.05; }
+.s-ev .t { display: grid; gap: 1px; min-width: 0; }
+.s-ev .t small { font-size: 8.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--cText); font-weight: 700; }
+.s-ev .t span { font-size: 12.5px; line-height: 1.3; font-weight: 700; }
+.s-ev .t em { font-style: normal; font-size: 10.5px; color: var(--text); }
+.story-foot { text-align: center; display: grid; gap: 2px; }
+.story-foot b { font-family: var(--display); font-weight: 500; font-size: 18px; }
+.story-foot span { font-size: 11px; letter-spacing: .06em; color: var(--foam); }
+
+
+/* Lisibilité : Gotham Bold pour les petits textes, Butler plus épaisse */
+.btn { font-family: var(--label); font-weight: 700; font-size: 13.5px; letter-spacing: .1em; }
+.eyebrow, .tag, .chip, .views button, .cal-btn, .link-ghost, .text-link,
+.ev-foot .time, .ev-foot .more, .repars small, .next-date .soon, .next-date .dow, .logo-text small,
+.s-ev .d small, .s-ev .t small, .s-ev .t span, .story-foot span, .cal-row > small, .story-tools select { font-family: var(--label); font-weight: 700; }
+.tag { letter-spacing: .1em; font-size: 10.5px; }
+.chip, .views button { font-size: 13px; }
+.s-ev .t span { font-size: 12px; }
+.hero h1, .panel-top h3, .story h2, .t-month span, .t-when b, .final h2 em { font-weight: 600; }
+.ev-title, .next-body h3, .perk b, .section-head h2, .final h2 { font-weight: 700; }
+.section-head p, .next-body .hook, .panel-body .hook, .repars span, .next-date .mon { font-weight: 600; }
+
+@media (max-width: 960px) {
+  .perk-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 760px) {
+  .hero { padding: 40px 0 120px; }
+  .hero-stats div { padding: 4px 14px; }
+  .hero-stats b { font-size: 34px; }
+  .next { margin-top: -80px; }
+  .next-card { grid-template-columns: 1fr; }
+  .next-date { grid-template-columns: auto auto auto; gap: 10px; align-items: baseline; padding: 18px; }
+  .next-date .soon { grid-column: 1 / -1; justify-self: center; margin-bottom: 4px; }
+  .next-date .num { font-size: 52px; }
+  .next-body { padding: 22px; }
+  .timeline::before { left: 11px; }
+  .t-month { justify-items: start; }
+  .t-month span { font-size: 22px; }
+  .t-row, .t-row.left, .t-row.right { grid-template-columns: 24px 1fr; gap: 6px 14px; margin-bottom: 18px; }
+  .t-node { grid-column: 1; grid-row: 1; width: 20px; height: 20px; border-width: 4px; }
+  .t-row.left .t-when, .t-row.right .t-when { grid-column: 2; grid-row: 1; text-align: left; padding: 0; }
+  .t-row.left .event, .t-row.right .event { grid-column: 2; grid-row: 2; }
+  .t-when b { font-size: 22px; }
+  .event::before { display: none; }
+  .perk-grid { grid-template-columns: 1fr; }
+  .panel-top, .panel-body, .panel-actions { padding-left: 22px; padding-right: 22px; }
+  .repars { margin-left: 22px; margin-right: 22px; }
+  .story { width: 100%; max-width: 360px; padding: 26px 18px 20px; }
+  .btn { padding: 14px 22px; font-size: 13.5px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <canvas class="net" aria-hidden="true"></canvas>
+  <div class="container hero-inner">
+    <div class="brand">
+      <img class="logo brand-img" src="logo.png" alt="Business Synergique" hidden>
+      <div class="logo-text brand-text"><small>L'espace stratégique</small><b>Business</b><i>synergique</i></div>
+    </div>
+    <h1>L'espace stratégique pour <em>amplifier</em> ton marketing.</h1>
+    <p class="lede">Business Synergique, c'est mon regard stratégique en formule de groupe : des événements en direct, du feedback sur ton contenu et des réponses à tes questions.</p>
+    <div class="hero-stats" id="stats"></div>
+    <div class="hero-cta">
+      <a class="btn cta" href="#" target="_blank" rel="noopener">Je m'inscris à Business Synergique</a>
+      <a class="link-ghost" href="#programmation">Voir la programmation <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+    </div>
+  </div>
+  <svg class="wave" viewBox="0 0 1440 110" preserveAspectRatio="none" aria-hidden="true"><path d="M0 64 C 240 120, 520 10, 760 46 C 1000 82, 1220 96, 1440 40 L1440 110 L0 110 Z" fill="#ffffff"/></svg>
+</header>
+
+<section class="next container" id="next" aria-label="Prochain événement"></section>
+
+<section class="formats container" aria-labelledby="formatsTitle">
+  <div class="section-head">
+    <h2 id="formatsTitle">Des moments qui reviennent chaque mois</h2>
+    <p>Une occasion presque chaque semaine d'avancer ton marketing.</p>
+    <div class="rule"></div>
+  </div>
+  <div class="format-grid" id="formatGrid"></div>
+</section>
+
+<section class="program" id="programmation" aria-labelledby="progTitle">
+  <div class="container">
+    <div class="section-head">
+      <h2 id="progTitle">La programmation</h2>
+      <p>Clique sur un événement pour tout savoir et l'ajouter à ton agenda.</p>
+      <div class="rule"></div>
+    </div>
+    <div class="toolbar">
+      <div class="filters" id="filters" role="group" aria-label="Filtrer par format"></div>
+      <div class="views" role="group" aria-label="Affichage">
+        <button type="button" id="viewList" aria-pressed="true">Calendrier</button>
+        <button type="button" id="viewStory" aria-pressed="false">Vue story</button>
+      </div>
+    </div>
+    <div id="listView"></div>
+    <div id="storyView" class="story-wrap" hidden>
+      <div class="story-tools">
+        <label for="storyMonth">Afficher :</label>
+        <select id="storyMonth"></select>
+        <span>Fais une capture d'écran du cadre pour ta story.</span>
+      </div>
+      <div class="story" id="story"><canvas class="net" aria-hidden="true"></canvas><div id="storyContent" style="display:contents"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="perks" aria-labelledby="perksTitle">
+  <svg class="wave-top" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L1440 0 L1440 30 C 1180 90, 900 70, 700 44 C 480 16, 220 30, 0 70 Z" fill="#f2f7f8"/></svg>
+  <canvas class="net" aria-hidden="true"></canvas>
+  <div class="container">
+    <div class="section-head">
+      <h2 id="perksTitle">Entre deux événements, <em>plein de façons de progresser</em></h2>
+      <p>Tu n'as pas besoin de tout suivre pour en profiter.</p>
+      <div class="rule"></div>
+    </div>
+    <div class="perk-grid" id="perkGrid"></div>
+    <div class="center"><a class="btn cta" href="#" target="_blank" rel="noopener">Je m'inscris à Business Synergique</a></div>
+  </div>
+  <svg class="wave-bottom" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 50 C 260 0, 560 80, 820 56 C 1060 34, 1260 20, 1440 52 L1440 90 L0 90 Z" fill="#ffffff"/></svg>
+</section>
+
+<section class="final container" aria-labelledby="finalTitle">
+  <div class="final-inner">
+    <div class="eyebrow">Business Synergique</div>
+    <h2 id="finalTitle">Envie de te joindre <em>à nous</em>?</h2>
+    <p>Viens chercher du feedback sur ton contenu, des réponses à tes questions et une communauté d'entrepreneures qui avancent comme toi.</p>
+    <a class="btn dark cta" href="#" target="_blank" rel="noopener">Je m'inscris à Business Synergique</a>
+    <p class="small">Formule mensuelle sans engagement.</p>
+  </div>
+</section>
+<div class="stamp" id="stamp"></div>
+
+<div class="overlay" id="overlay" aria-hidden="true">
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="pTitle" id="panel"></div>
+</div>
+
+<script>
+const TZ = "America/Toronto";
+const ICON = {
+  coworking: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/></svg>',
+  clinique: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>',
+  cafe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 2v3M12 2v3"/></svg>',
+  planif: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  special: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.2 6.6L21 11l-6.8 2.4L12 20l-2.2-6.6L3 11l6.8-2.4z"/></svg>',
+  arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  cal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>',
+  replay: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>',
+  book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M9 7h6"/></svg>',
+  people: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.2A5 5 0 0 1 21.5 19"/></svg>'
+};
+
+const FORMATS = {
+  clinique: {
+    label: "Clinique", nom: "La clinique de contenu", c: "#13486c", soft: "#dbe8f0", text: "#13486c",
+    court: "Tu montres ce qui te fait douter, tes questionnements et tes avancements. On prend le temps de les regarder ensemble, en direct ou en différé.",
+    accroche: "Arrête de te demander toute seule si c'est bon. Viens le montrer.",
+    texte: [
+      "Le cœur de Business Synergique. Tu m'apportes ce qui te fait douter : une publication que tu hésites à publier, un Reel qui ne lève pas, ta page de vente avant de la mettre en ligne, une offre à démêler ou un lancement à brainstormer.",
+      "Le temps est partagé équitablement (oui, avec une minuterie) pour que chacune ait son moment avec moi. Pas de question précise? Viens écouter. Les questions des autres débloquent souvent les tiennes."
+    ],
+    repars: "Des ajustements concrets sur TON contenu. Et souvent, une décision."
+  },
+  coworking: {
+    label: "Co-working", nom: "Le co-working de contenu", c: "#3d97ad", soft: "#d8eef3", text: "#1f6d80",
+    court: "Deux heures en mode Pomodoro pour enfin avancer ton marketing.",
+    accroche: "Ton contenu mérite mieux que « quand il me restera du temps ».",
+    texte: [
+      "Deux heures bloquées dans ton agenda pour faire avancer ton marketing pour vrai. On travaille ensemble en mode Pomodoro : des blocs de focus, des petites pauses, et cette belle pression positive de savoir que les autres sont là, à faire la même chose que toi.",
+      "Planifier ton mois, écrire tes publications, programmer, monter une vidéo, finir l'infolettre qui traîne depuis trois semaines (on ne juge pas). Et si tu bloques en cours de route, je suis là pour répondre."
+    ],
+    repars: "Du contenu fait. Pas juste une to-do plus longue."
+  },
+  cafe: {
+    label: "Café-jasette", nom: "Le café-jasette", c: "#5fadbf", soft: "#e0f1f4", text: "#2a7393",
+    court: "On jase des actualités du web et des réseaux sociaux et je te partage ce qui a un impact pour ta business ou ce qui pourrait t'aider.",
+    accroche: "Le web bouge vite. Tu n'as pas à tout suivre seule.",
+    texte: [
+      "Nouvelles fonctionnalités Instagram, outils d'IA qui sortent chaque semaine, algorithmes qui changent d'humeur sans prévenir... On fait le tour des actus du web et des réseaux sociaux.",
+      "Surtout, on trie ensemble ce qui compte vraiment pour ta business, et on laisse le reste passer. Un moment plus léger, entre entrepreneures qui vivent dans le même univers que toi."
+    ],
+    repars: "L'essentiel des tendances, sans l'angoisse du « qu'est-ce que j'ai encore manqué? »"
+  },
+  planif: {
+    label: "Planification", nom: "La planification trimestrielle", c: "#7f9fa8", soft: "#e6eef0", text: "#3c5560",
+    court: "Quatre fois par année, on choisit où ira ton énergie.",
+    accroche: "Une pause stratégique avant que la saison t'avale.",
+    texte: [
+      "Quatre fois par année, on fait le point sur le trimestre qui se termine et on décide où ira ton énergie pour le prochain : tes projets prioritaires, les offres à mettre de l'avant, les actions qui rapportent vraiment.",
+      "Apporte ton agenda et ton carnet. On bâtit une saison qui te ressemble, sans t'éparpiller."
+    ],
+    repars: "Tes priorités claires et un plan réaliste pour les prochains mois."
+  },
+  special: {
+    label: "Événement spécial", nom: "Les événements spéciaux", c: "#0d3149", soft: "#e3ebf0", text: "#0d3149",
+    court: "Des cercles, des invitées et des moments hors série.",
+    accroche: "Un moment hors série avec la communauté.",
+    texte: ["Les détails arrivent bientôt."],
+    repars: "Un moment qui sort de l'ordinaire avec la communauté."
+  }
+};
+const ORDER = ["clinique", "coworking", "cafe", "planif", "special"];
+
+let DATA = { events: [], cta_url: "https://melaniehalley.com/membership", updated: null };
+let filter = "all";
+let downloads = null;
+
+/* ---------- Dates ---------- */
+function parts(d, opts) { const o = {}; new Intl.DateTimeFormat("fr-CA", Object.assign({ timeZone: TZ }, opts)).formatToParts(d).forEach(p => o[p.type] = p.value); return o; }
+function hm(d) { const p = parts(d, { hour: "numeric", minute: "2-digit", hourCycle: "h23" }); const h = String(parseInt(p.hour, 10)); return p.minute === "00" ? h + " h" : h + " h " + p.minute; }
+const F = (opts) => (d) => new Intl.DateTimeFormat("fr-CA", Object.assign({ timeZone: TZ }, opts)).format(d);
+const fullDate = F({ weekday: "long", day: "numeric", month: "long", year: "numeric" });
+const dowLong = F({ weekday: "long" });
+const dayMonth = F({ day: "numeric", month: "long" });
+const monthName = F({ month: "long" });
+const monthYear = F({ month: "long", year: "numeric" });
+function dowShort(d) { return F({ weekday: "short" })(d).replace(".", ""); }
+function dayNum(d) { return parts(d, { day: "numeric" }).day; }
+function monthKey(d) { const p = parts(d, { year: "numeric", month: "2-digit" }); return p.year + "-" + p.month; }
+function dayIndex(d) { const p = parts(d, { year: "numeric", month: "2-digit", day: "2-digit" }); return Date.UTC(+p.year, +p.month - 1, +p.day) / 86400000; }
+function duration(a, b) { const min = Math.round((b - a) / 60000), h = Math.floor(min / 60), m = min % 60; return h ? (h + " h" + (m ? " " + m : "")) : (m + " min"); }
+function utcStamp(d) { return d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, ""); }
+function soon(d) {
+  const n = dayIndex(d) - dayIndex(new Date());
+  if (n <= 0) return "Aujourd'hui";
+  if (n === 1) return "Demain";
+  return "Dans " + n + " jours";
+}
+
+function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+function fmt(t) { return FORMATS[t] || FORMATS.special; }
+function pitch(ev) { const f = fmt(ev.type), p = ev.pitch || {}; return { accroche: p.accroche || f.accroche, texte: p.texte || f.texte, repars: p.repars || f.repars }; }
+function vars(t) { const f = fmt(t); return `--c:${f.c};--cSoft:${f.soft};--cText:${f.text}`; }
+function tagHTML(t) { const f = fmt(t); return `<span class="tag"><i>${ICON[t] || ICON.special}</i>${esc(f.label)}</span>`; }
+
+function upcoming() {
+  const now = Date.now();
+  return DATA.events.map(e => Object.assign({}, e, { s: new Date(e.start), e: new Date(e.end) }))
+    .filter(e => e.e.getTime() > now).sort((a, b) => a.s - b.s);
+}
+
+/* ---------- Réseau de synapses (décor) ---------- */
+function drawNet(canvas, opts) {
+  const o = Object.assign({ density: 0.00009, line: "rgba(255,255,255,.16)", node: "rgba(255,255,255,.22)", seed: 7 }, opts || {});
+  const r = canvas.getBoundingClientRect(); if (!r.width) return;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = r.width * dpr; canvas.height = r.height * dpr;
+  const ctx = canvas.getContext("2d"); ctx.scale(dpr, dpr);
+  let s = o.seed; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  const n = Math.max(14, Math.round(r.width * r.height * o.density));
+  const pts = Array.from({ length: n }, () => ({ x: rnd() * r.width, y: rnd() * r.height, r: 2 + rnd() * 4 }));
+  const max = Math.max(150, Math.min(r.width, 900) / 4.5);
+  ctx.lineWidth = 1.4; ctx.strokeStyle = o.line;
+  pts.forEach((a, i) => { let links = 0; for (let j = i + 1; j < pts.length && links < 3; j++) { const b = pts[j], d = Math.hypot(a.x - b.x, a.y - b.y); if (d < max) { ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); links++; } } });
+  ctx.fillStyle = o.node; pts.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill(); });
+}
+function drawAllNets() {
+  document.querySelectorAll(".hero canvas.net").forEach(c => drawNet(c, { seed: 11 }));
+  document.querySelectorAll(".perks canvas.net").forEach(c => drawNet(c, { seed: 23, line: "rgba(153,200,212,.14)", node: "rgba(153,200,212,.22)" }));
+  document.querySelectorAll(".story canvas.net").forEach(c => drawNet(c, { seed: 5, density: 0.00022 }));
+}
+
+/* ---------- Logo ---------- */
+function brandHTML() { return document.querySelector(".brand").innerHTML; }
+function setupLogo() {
+  const img = document.querySelector(".brand-img"), txt = document.querySelector(".brand-text");
+  const ok = () => { img.hidden = false; txt.hidden = true; if (document.getElementById("storyView") && !document.getElementById("storyView").hidden) renderStory(upcoming()); };
+  img.addEventListener("load", ok);
+  if (img.complete && img.naturalWidth) ok();
+}
+
+/* ---------- Rendu ---------- */
+function renderStats(list) {
+  const last = list.length ? list[list.length - 1].s : null;
+  const first = list.length ? list[0].s : null;
+  const thisMonth = first ? list.filter(e => monthKey(e.s) === monthKey(first)).length : 0;
+  const types = new Set(list.map(e => e.type)).size;
+  document.getElementById("stats").innerHTML = `
+    <div><b>${list.length}</b><span>événements en direct${last ? " d'ici " + esc(monthName(last)) : ""}</span></div>
+    <div><b>${thisMonth}</b><span>occasions en ${first ? esc(monthName(first)) : "ce moment"} d'avancer ton marketing</span></div>
+    <div><b>${types}</b><span>formats pour avancer à ta façon</span></div>`;
+}
+
+function renderNext(list) {
+  const el = document.getElementById("next");
+  const e = list[0];
+  if (!e) { el.innerHTML = ""; return; }
+  const p = pitch(e);
+  el.innerHTML = `<article class="next-card" style="${vars(e.type)}">
+    <div class="next-date"><span class="soon">${esc(soon(e.s))}</span><span class="dow">${esc(dowLong(e.s))}</span><span class="num">${esc(dayNum(e.s))}</span><span class="mon">${esc(monthName(e.s))}</span></div>
+    <div class="next-body">
+      <div class="eyebrow">Le prochain événement ${tagHTML(e.type)}</div>
+      <h3>${esc(e.title)}</h3>
+      <p class="hook">${esc(p.accroche)}</p>
+      <div class="meta">${hm(e.s)} à ${hm(e.e)}, heure du Québec · ${duration(e.s, e.e)} en direct</div>
+      <div class="next-actions">
+        <a class="btn dark cta" href="${esc(DATA.cta_url)}" target="_blank" rel="noopener">Je m'inscris</a>
+        <button type="button" class="text-link" data-open="${esc(e.id)}">Voir le détail ${ICON.arrow}</button>
+      </div>
+    </div>
+  </article>`;
+  el.querySelector("[data-open]").addEventListener("click", ev => openPanel(e.id, ev.currentTarget));
+}
+
+function renderFormats(list) {
+  const present = ["clinique", "coworking", "cafe", "planif"].filter(t => t !== "planif" || list.some(e => e.type === t));
+  document.getElementById("formatGrid").innerHTML = present.map(t => {
+    const f = fmt(t), n = list.filter(e => e.type === t).length;
+    return `<button type="button" class="format" style="${vars(t)}" data-f="${t}">
+      <div class="f-head"><span class="ghost" aria-hidden="true">${ICON[t]}</span><span class="f-icon">${ICON[t]}</span><h3>${esc(f.nom)}</h3></div>
+      <div class="f-body">
+        <p>${esc(f.court)}</p>
+        <span class="count">${n ? n + " date" + (n > 1 ? "s" : "") + " au calendrier" : "Prochaines dates à venir"} ${ICON.arrow}</span>
+      </div>
+    </button>`;
+  }).join("");
+  document.querySelectorAll(".format").forEach(b => b.addEventListener("click", () => {
+    filter = b.dataset.f; setView("list"); render();
+    document.getElementById("programmation").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  }));
+}
+
+function renderFilters(list) {
+  const present = ORDER.filter(t => list.some(e => e.type === t));
+  const el = document.getElementById("filters");
+  el.innerHTML = `<button type="button" class="chip all" data-f="all" aria-pressed="${filter === "all"}">Tout voir</button>` +
+    present.map(t => `<button type="button" class="chip" style="${vars(t)}" data-f="${t}" aria-pressed="${filter === t}"><span class="dot">${ICON[t]}</span>${esc(fmt(t).label)}</button>`).join("");
+  el.querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => { filter = b.dataset.f; render(); }));
+}
+
+function renderList(list) {
+  const el = document.getElementById("listView");
+  const shown = filter === "all" ? list : list.filter(e => e.type === filter);
+  if (!shown.length) { el.innerHTML = `<div class="empty">La prochaine programmation arrive très bientôt. Reviens jeter un œil dans quelques jours!</div>`; return; }
+  let html = `<div class="timeline">`, lastKey = null, i = 0;
+  shown.forEach(e => {
+    const k = monthKey(e.s);
+    if (k !== lastKey) { html += `<div class="t-month"><span>${esc(monthYear(e.s))}</span></div>`; lastKey = k; }
+    const p = pitch(e), side = i++ % 2 === 0 ? "left" : "right";
+    html += `<div class="t-row ${side}" style="${vars(e.type)}">
+      <button type="button" class="event" data-id="${esc(e.id)}" aria-label="${esc(e.title)}, ${esc(fullDate(e.s))}. Voir le détail">
+        ${tagHTML(e.type)}
+        <span class="ev-title">${esc(e.title)}</span>
+        <p class="ev-hook">${esc(p.accroche)}</p>
+        <span class="ev-foot"><span class="time">${ICON.clock}${hm(e.s)} à ${hm(e.e)}</span><span class="more">Voir le détail ${ICON.arrow}</span></span>
+      </button>
+      <span class="t-node" aria-hidden="true"></span>
+      <div class="t-when"><b>${esc(dowLong(e.s))} ${esc(dayNum(e.s))}</b><span>${esc(dayMonth(e.s).replace(/^\d+\s/, ""))} · ${duration(e.s, e.e)}</span></div>
+    </div>`;
+  });
+  el.innerHTML = html + `</div>`;
+  el.querySelectorAll(".event").forEach(b => b.addEventListener("click", () => openPanel(b.dataset.id, b)));
+}
+
+function renderPerks() {
+  const items = [
+    ["chat", "Du feedback sur ton contenu", "Sur la plateforme, tu peux poser tes questions et demander du feedback sur ce que tu crées, même entre deux événements. Tu repars avec des ajustements concrets."],
+    ["replay", "Tout est enregistré", "Une rencontre manquée, ça se rattrape à ton rythme. Le but, c'est d'aller chercher ce qui soutient tes objectifs du moment. Pas de tout binge-watcher comme une série Netflix."],
+    ["book", "Une bibliothèque qui t'attend", "Capsules, ateliers enregistrés, banques d'idées et prompts prêts à utiliser."],
+    ["people", "Une communauté qui comprend", "Des entrepreneures de services qui avancent comme toi, avec qui échanger et célébrer."]
+  ];
+  document.getElementById("perkGrid").innerHTML = items.map(([i, b, s]) => `<div class="perk"><i>${ICON[i]}</i><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join("");
+}
+
+/* ---------- Agenda ---------- */
+function calDetails(e) { return pitch(e).accroche + "\n\nBusiness Synergique, avec Mélanie Halley (Synapse Marketing).\nMembre? Le lien pour te joindre est dans ton espace Heartbeat.\nPas encore membre? " + DATA.cta_url; }
+function googleUrl(e) { return "https://calendar.google.com/calendar/render?" + new URLSearchParams({ action: "TEMPLATE", text: e.title + " · Business Synergique", dates: utcStamp(e.s) + "/" + utcStamp(e.e), details: calDetails(e), ctz: TZ }).toString(); }
+function outlookUrl(e) { return "https://outlook.live.com/calendar/0/deeplink/compose?" + new URLSearchParams({ path: "/calendar/action/compose", rru: "addevent", subject: e.title + " · Business Synergique", startdt: e.s.toISOString(), enddt: e.e.toISOString(), body: calDetails(e) }).toString(); }
+function icsText(e) {
+  const f = s => s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+  return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Synapse Marketing//Business Synergique//FR", "CALSCALE:GREGORIAN", "METHOD:PUBLISH", "BEGIN:VEVENT",
+    "UID:" + e.id.replace(/[^A-Za-z0-9_-]/g, "") + "@businesssynergique", "DTSTAMP:" + utcStamp(new Date()), "DTSTART:" + utcStamp(e.s), "DTEND:" + utcStamp(e.e),
+    "SUMMARY:" + f(e.title + " · Business Synergique"), "DESCRIPTION:" + f(calDetails(e)), "END:VEVENT", "END:VCALENDAR"].join("\r\n");
+}
+
+/* ---------- Panneau ---------- */
+let lastFocus = null;
+function openPanel(id, from) {
+  const e = upcoming().find(x => x.id === id); if (!e) return;
+  lastFocus = from || null;
+  const p = pitch(e), panel = document.getElementById("panel");
+  panel.setAttribute("style", vars(e.type));
+  panel.innerHTML = `
+    <button type="button" class="close" id="pClose" aria-label="Fermer">${ICON.x}</button>
+    <div class="panel-top">
+      <div>${tagHTML(e.type)}</div>
+      <h3 id="pTitle">${esc(e.title)}</h3>
+      <div class="when"><span>${ICON.cal}${esc(fullDate(e.s))}</span><span>${ICON.clock}${hm(e.s)} à ${hm(e.e)} (${duration(e.s, e.e)}), heure du Québec</span></div>
+    </div>
+    <div class="panel-body"><p class="hook">${esc(p.accroche)}</p>${p.texte.map(t => `<p>${esc(t)}</p>`).join("")}</div>
+    <div class="repars"><small>Tu repars avec</small><span>${esc(p.repars)}</span></div>
+    <div class="panel-actions">
+      <a class="btn dark" href="${esc(DATA.cta_url)}" target="_blank" rel="noopener">Je m'inscris à Business Synergique</a>
+      <div class="cal-row"><small>Ajouter à mon agenda</small>
+        <div class="cal-btns">
+          <a class="cal-btn" href="${esc(googleUrl(e))}" target="_blank" rel="noopener">${ICON.plus}Google Agenda</a>
+          <a class="cal-btn" href="${esc(outlookUrl(e))}" target="_blank" rel="noopener">${ICON.plus}Outlook</a>
+          ${(downloads || CAN_BLOB) ? `<button type="button" class="cal-btn" id="pIcs">${ICON.plus}Apple Calendrier</button>` : ""}
+        </div>
+      </div>
+      <p class="member-note">Déjà membre? Le lien pour te joindre est dans ton espace Heartbeat.</p>
+    </div>`;
+  const ov = document.getElementById("overlay"); ov.classList.add("open"); ov.setAttribute("aria-hidden", "false");
+  if (EMBEDDED) {
+    ov.style.alignItems = "flex-start";
+    const y = from ? from.getBoundingClientRect().top + window.scrollY : window.scrollY;
+    const maxTop = Math.max(20, document.body.getBoundingClientRect().height - panel.offsetHeight - 40);
+    panel.style.marginTop = Math.min(Math.max(20, y - 120), maxTop) + "px";
+    panel.style.maxHeight = "none";
+  }
+  document.getElementById("pClose").addEventListener("click", closePanel);
+  const ics = document.getElementById("pIcs");
+  if (ics) ics.addEventListener("click", async () => {
+    try {
+      const slug = e.title.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40);
+      const fname = "business-synergique-" + slug + ".ics", blob = new Blob([icsText(e)], { type: "text/calendar" });
+      if (downloads) { await downloads.save({ filename: fname, data: blob }); }
+      else { const u = URL.createObjectURL(blob), a = document.createElement("a"); a.href = u; a.download = fname; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 4000); }
+    } catch (err) { }
+  });
+  document.getElementById("pClose").focus();
+}
+function closePanel() { const ov = document.getElementById("overlay"); ov.classList.remove("open"); ov.setAttribute("aria-hidden", "true"); if (lastFocus) lastFocus.focus(); }
+document.getElementById("overlay").addEventListener("click", ev => { if (ev.target.id === "overlay") closePanel(); });
+document.addEventListener("keydown", ev => { if (ev.key === "Escape") closePanel(); });
+
+/* ---------- Vue story ---------- */
+function renderStory(list) {
+  const sel = document.getElementById("storyMonth");
+  const months = []; list.forEach(e => { const k = monthKey(e.s); if (!months.find(m => m.k === k)) months.push({ k, d: e.s }); });
+  const current = sel.value || "next";
+  sel.innerHTML = `<option value="next">Les prochains événements</option>` + months.map(m => `<option value="${m.k}">${esc(monthYear(m.d))}</option>`).join("");
+  sel.value = [...sel.options].some(o => o.value === current) ? current : "next";
+  const isMonth = sel.value !== "next";
+  const items = (isMonth ? list.filter(e => monthKey(e.s) === sel.value) : list).slice(0, 6);
+  const m = isMonth ? months.find(x => x.k === sel.value) : null;
+  const mm = isMonth ? monthName(m.d) : ""; const title = isMonth ? `${esc(mm.charAt(0).toUpperCase() + mm.slice(1))} dans <em>l'espace stratégique</em>` : `Tes prochains moments <em>stratégiques</em>`;
+  document.getElementById("storyContent").innerHTML = `
+    <div class="s-logo">${brandHTML()}</div>
+    <h2>${title.replace(/-/g, "\u2011")}</h2>
+    <div class="story-list">${items.map(e => `
+      <div class="s-ev" style="${vars(e.type)}">
+        <div class="d"><small>${esc(dowShort(e.s))}</small><b>${esc(dayNum(e.s))}</b></div>
+        <div class="t"><small>${esc(fmt(e.type).label)}${isMonth ? "" : " · " + esc(monthName(e.s))}</small><span>${esc(e.title)}</span><em>${hm(e.s)} à ${hm(e.e)}</em></div>
+      </div>`).join("") || `<p>La prochaine programmation arrive bientôt.</p>`}</div>
+    <div class="story-foot"><b>Rejoins-nous dans l'espace stratégique</b><span>melaniehalley.com</span></div>`;
+  requestAnimationFrame(() => document.querySelectorAll(".story canvas.net").forEach(c => drawNet(c, { seed: 5, density: 0.00022 })));
+}
+document.getElementById("storyMonth").addEventListener("change", () => renderStory(upcoming()));
+
+function setView(v) {
+  const story = v === "story";
+  document.getElementById("listView").hidden = story;
+  document.getElementById("storyView").hidden = !story;
+  document.getElementById("filters").hidden = story;
+  document.getElementById("viewList").setAttribute("aria-pressed", String(!story));
+  document.getElementById("viewStory").setAttribute("aria-pressed", String(story));
+  if (story) renderStory(upcoming());
+}
+document.getElementById("viewList").addEventListener("click", () => setView("list"));
+document.getElementById("viewStory").addEventListener("click", () => setView("story"));
+
+function render() {
+  const list = upcoming();
+  document.querySelectorAll("a.cta").forEach(a => a.href = DATA.cta_url);
+  renderStats(list); renderNext(list); renderFormats(list); renderFilters(list); renderList(list); renderStory(list);
+  if (DATA.updated) document.getElementById("stamp").textContent = "Programmation mise à jour le " + dayMonth(new Date(DATA.updated)) + ".";
+}
+
+const CAN_BLOB = !/claude/i.test(location.hostname);
+let EMBEDDED = false;
+try { EMBEDDED = window.self !== window.top; } catch (err) { EMBEDDED = true; }
+function postHeight() {
+  try { window.parent.postMessage({ bsProgHeight: Math.ceil(document.body.getBoundingClientRect().height) }, "*"); } catch (err) { }
+}
+if (window.ResizeObserver) new ResizeObserver(postHeight).observe(document.body);
+window.addEventListener("load", postHeight);
+let resizeT;
+window.addEventListener("resize", () => { clearTimeout(resizeT); resizeT = setTimeout(drawAllNets, 150); });
+
+async function init() {
+  renderPerks(); setupLogo(); drawAllNets();
+  try {
+    const r = await fetch("data/events.json", { cache: "no-store" });
+    if (!r.ok) throw new Error(r.status);
+    DATA = Object.assign(DATA, await r.json());
+  } catch (err) {
+    document.getElementById("listView").innerHTML = `<div class="empty">La programmation n'a pas pu se charger. Recharge la page dans un instant.</div>`;
+  }
+  render(); postHeight();
+  if (location.hash === "#story") { setView("story"); document.getElementById("programmation").scrollIntoView(); }
+  try { if (window.claude && typeof window.claude.use === "function") downloads = await window.claude.use("downloads"); } catch (err) { downloads = null; }
+}
+init();
+</script>
+</body>
+</html>
